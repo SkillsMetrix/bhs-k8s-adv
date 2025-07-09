@@ -1,25 +1,9 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ResourceQuota
 metadata:
-  name: redis
+  name: test-quota
+  namespace: my-ns
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: redis
-  template:
-    metadata:
-      labels:
-        app: redis
-    spec:
-      containers:
-      - name: redis
-        image: redis:6.2
-        resources:
-          requests:
-            memory: 200mi
-            cpu: 100m
-          limits:
-            memory: "400Mi"
-            cpu: "1"
-
+  hard:
+    requests.cpu: "100m"
+    limits.cpu: "300m"
