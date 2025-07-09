@@ -6,10 +6,20 @@ spec:
   containers:
   - name: nginx-container
     image: nginx
+    env:
+    - name: APP_NAME
+      valueFrom:
+        configMapKeyRef:
+         name: my-config
+         key: APP_NAME
+    - name: APP_ENV
+      valueFrom:
+        configMapKeyRef:
+         name: my-config
+         key: APP_ENV
     volumeMounts:
       - name: test-vol
         mountPath: /test-mnt
   volumes:
     - name: test-vol
-      hostPath:
-        path: /test-vol
+      emptyDir: {}
