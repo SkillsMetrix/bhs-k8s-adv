@@ -26,7 +26,13 @@ spec:
           periodSeconds: 20
         readinessProbe:
           httpGet:
-            path: /
+            path: /test
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 15
+        startupProbe:
+           httpGet:
+            path: /loadLAndingPage
+            port: 90
+           failureThreshold: 30
+           periodSeconds: 10
