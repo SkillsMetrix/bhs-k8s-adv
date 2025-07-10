@@ -1,38 +1,11 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: apache-server
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: apache-server
-  template:
-    metadata:
-      labels:
-        app: apache-server
-    spec:
-      containers:
-      - name: apache-server
-        image: httpd:2.4
-        ports:
-        - name: apache-server
-          containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        readinessProbe:
-          httpGet:
-            path: /test
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 15
-        startupProbe:
-           httpGet:
-            path: /loadLAndingPage
-            port: 90
-           failureThreshold: 30
-           periodSeconds: 10
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::354918374090:user/rbac-user
+      username: rbac-user
+
+
