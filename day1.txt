@@ -1,21 +1,26 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: security-context
-  labels:
-    usrda: myapp
-spec:
-  securityContext:
-    runAsUser: 1000
-    runAsGroup: 3000
-    fsGroup: 2000
-  volumes:
-    - name: demo-vol
-      emptyDir: {}
-  containers:
-  - name: sc-demo
-    image: busybox:1.28
-    command: ["sh", "-c", "sleep 1h"]
-    volumeMounts:
-      - name: demo-vol
-        mountPath: /data/demo
+kubectl create secret generic aws-secret \
+    --namespace kube-system \
+    --from-literal "key_id=${AWS_ACCESS_KEY_ID}" \
+    --from-literal "access_key=${AWS_SECRET_ACCESS_KEY}"
+
+
+
+
+
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+
+
+
+
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+helm repo update
+
+
+
+helm upgrade --install aws-ebs-csi-driver \
+    --namespace kube-system \
+    aws-ebs-csi-driver/aws-ebs-csi-driver
