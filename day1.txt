@@ -27,3 +27,17 @@ helm upgrade --install aws-ebs-csi-driver \
 
 
 kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-ebs-csi-driver
+
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ebs-sc
+  resources:
+    requests:
+      storage: 1Gi
